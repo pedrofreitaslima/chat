@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "7777:7777"
+    volumes:
+      - "./docker/dynamodb:/home/pedro/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+  app-node:
+    depends_on:
+      - dynamodb-local
+    image: amazon/aws-cli
+    container_name: app-node
+    ports:
+     - "7777:7777"
+    environment:
+      AWS_ACCESS_KEY_ID: 'AKIAQAVLXJBPEUYFL345'
+      AWS_SECRET_ACCESS_KEY: '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'
+    command:
+      dynamodb describe-limits --endpoint-url http://dynamodb-local:7777 --region sa-east-1
