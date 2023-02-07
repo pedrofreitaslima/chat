@@ -8,7 +8,7 @@ services:
       - "7777:7777"
     volumes:
       - "./docker/dynamodb:/home/pedro/dynamodblocal/data"
-    working_dir: /home/dynamodblocal
+    working_dir: /home/pedro/dynamodblocal/data
   app-node:
     depends_on:
       - dynamodb-local
